@@ -1,0 +1,159 @@
+
+<div class="row">
+    <div class="col-2">
+        {{> barranavegacion}}
+    </div>
+
+
+    <div class="col-10">
+
+        <style>
+            .center {
+                text-align: center;
+            }
+
+            .izq {
+                text-align: left;
+            }
+        </style>
+        {{#if usuario.esAdministrador}}
+        {{else}}
+        <style>
+            #idAdmin {
+                display: none;
+            }
+        </style>
+        {{/if}}
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-4 mx-auto">
+                    <h1>Listado Clientes</h1>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container p-4">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <table id="clientes" class="table" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>DNI</th>
+                                    <th>Apellido </th>
+                                    <th>Nombre</th>
+                                    <th>Fecha Nacimiento</th>
+                                    <th>Direccion</th>
+                                    <th>Telefono</th>
+
+                                    <th hidden>Activo</th>
+                                    <th>Editar</th>
+                                    <th>Dar de Baja</th>
+
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    window.addEventListener("load", function (event) {
+        var url = 'http://localhost:4000/cliente/tabla';
+
+
+        var t = $('#clientes').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            select: true,
+            "stateSave": true,
+            "deferLoading": 57,
+            "processing": true,
+            buttons: [{
+
+                name: 'excelBtn',
+                extend: 'excelHtml5',
+                text: '<button  class=" btn btn-success" title="Exportar a Excel"> <i class="fas fa-file-excel"></i></button>',
+                titleAttr: '',
+                filename: 'Listado de Clientes',
+                autoFilter: true,
+                "messageTop": null,
+                "header": true,
+                "footer": false,
+                title: null,
+                exportOptions: {
+                    orthogonal: 'export',
+
+                    columns: ':visible'
+                }
+            },
+
+            /*{
+                extend: 'colvis', className: 'btn-warning',
+                text: '<i class="btn btn-warning fas fa-file" title="Ocultar Columnas" ></i>',
+            }*/
+            ],
+            "ajax": {
+                "url": url,
+                "dataSrc": "",
+            },
+
+            "rowCallback": function (row, data, index) {
+                if (data["Activo"] == "6") {
+                    $('td', row).css('background-color', '#e36565');
+                }
+                else if (data["Activo"] == "5") {
+
+                }
+            },
+
+            "columns": [
+
+                { "data": "Documento", className: "center" },
+                { "data": "Apellido", className: "center" },
+                { "data": "Nombre", className: "izq" },
+                { "data": "Fecha", className: "center" },
+                { "data": "Direccion", className: "center" },
+                { "data": "Telefono", className: "center" },
+              
+
+
+                {
+                    "data": null, 
+                    "render": function (data) {
+                        return ' <a title="Editar" href="editar/' + data.Cliente + '" class="btn btn-warning"><i  class="far fa-edit"></i></a> </a> '
+                    }
+                },
+                {
+                    "data": null, 
+                    "render": function (data) {
+                        return ' <a  id="idAdmin" href="confirmar/' + data.Cliente + '/6' + '"title="Inactivo" class="btn btn-danger"><i class="fas fa-trash-alt"></a>'
+                    }
+                },
+
+
+            ],
+            "columnDefs": [{
+                "targets": [7],
+                render(v) {
+                    return Number(v).toFixed(2)
+                },
+                "targets": 2,
+                "data": "Nombre",
+                render: $.fn.dataTable.render.ellipsis(11),
+                "targets": 4,
+                "data": "Direccion",
+                render: $.fn.dataTable.render.ellipsis(25)
+            }]
+        });
+    });
+</script>

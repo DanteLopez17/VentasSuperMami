@@ -1,0 +1,646 @@
+<style>
+    .input-icon {
+        position: relative;
+    }
+
+    .input-icon>i {
+        position: absolute;
+        display: block;
+        transform: translate(0, -50%);
+        top: 50%;
+        pointer-events: none;
+        width: 25px;
+        text-align: center;
+        font-style: normal;
+    }
+
+    .input-icon>input {
+        padding-left: 25px;
+        padding-right: 0;
+    }
+
+    .input-icon-right>i {
+        right: 0;
+    }
+
+    .input-icon-right>input {
+        padding-left: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-1">
+        {{> barranavegacion}}
+    </div>
+    <div class="col-1"></div>
+    <div class="col-9">
+        <div class="container p-4">
+            <div>
+                <!--class='login-box' -->
+                <h1 class="animate__animated animate__backInDown">Registrar nueva Nota de Pedido</h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Datos del producto</h3>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <h3>Datos de la nota</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for='cboNombreProducto'>Nombre Producto:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id='cboNombreProducto' name='producto' alt='Nombre Producto'
+                            lang="es">
+                        </select>
+                    </div>
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-2">
+                        <!--Fecha de nacimiento-->
+                        <label for='dtpFechaRegistro'>Fecha de registro:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='date' id='dtpFechaRegistro' name='dtpFechaRegistro'
+                            alt='Campo fecha de registro' />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <!--Documento-->
+                        <label for='txtPrecio'>Precio Unitario:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='number' id='txtPrecio' name='precioUnitario'
+                            placeholder='Precio' alt='Campo Precio' />
+                    </div>
+                    <div class="col-md-2"></div>
+                    <!--Direccion-->
+                </div>
+                <div class="row">
+                    <div hidden class="col-md-2">
+                        <input class="form-control" type='text' id='txtidVendedor' name='nombreV'
+                            placeholder=' Nombre Vendedor' value={{usuario.legajo}} readonly alt='Campo nombre' />
+                    </div>
+                    <div class="col-md-2">
+                        <!--Tipo documento y documento-->
+                        <label for='cboProovedor'>Proveedor:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id='cboProveedor' name='idProveedor' alt='Seleccion el Proveedor'>
+                        </select>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <!--Tipo documento y documento-->
+                        <label for='cboMedida'>Nombre Vendedor:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='text' id='txtNombreVendedor' name='nombreV'
+                            placeholder=' Nombre Vendedor' value={{usuario.nombre}} readonly alt='Campo nombre' />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <!--Nombre-->
+                        <label for='cboMedida'>Cantidad :</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='text' id='txtCantidad' name='cantidad' placeholder=' cantidad'
+                            alt='Campo cantidad' />
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <label for='cboNombreCliente'>Nombre Cliente:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id='cboNombreCliente' name='cliente' alt='Nombre Cliente'
+                            lang="es">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-1"></div>
+    <div class="row">
+    <div class="col-md-1" style="    width: 300px;">
+        <!--Nombre-->
+    </div>
+    <div class="col-md-2">
+        <button id="btnCargar" class="btn btn-success" type="button" onclick="validar()">Cargar Detalle</button>
+    </div>
+    <div class="col-md-3" style="  width: 430px;"></div>
+    <div class="col-md-2">
+        <button type='button' value="Registrar NDP" id='btnCargarProd' name='Registrar' onclick="validarCli()"
+            class="btn btn-success" style="    background: darkslategrey; display:none">Cargar NDP</button>
+    </div>
+</div>
+</div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-9">
+        <div class="container p-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div id="adicionados" hidden></div>
+                <table id="usuarios" class="table " style="width:100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th hidden style="text-align: -webkit-center;">idCliente</th>
+                            <th style="text-align: -webkit-center;">Nombre</th>
+                            <th style="text-align: -webkit-center;">Cantidad</th>
+                            <th style="    text-align: -webkit-center;">Proveedor</th>
+                            <th style="text-align: -webkit-center;">Precio Unitario</th>
+                            <th style="text-align: -webkit-center;">Acciones</th>
+                            <th hidden style="text-align: -webkit-center;">codigoProducto</th>
+                    </thead>
+                </table>
+                <div class="container-fuild">
+                    <div class="row">
+                        <div class="col-md-10"></div>
+                        <div class="col-md-2">
+                            <div class="input-icon">
+                                <input id="total" style="text-align: end; width: 158px; background: border-box;"
+                                    readonly />
+                                <i>$</i>
+                            </div>
+                            <label>Total</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<script src="/js/validacion-nota.js"></script>
+<script>
+    $(document).ready(() => {
+        const now = new Date();
+        const dia = `0${now.getDate()}`.slice(-2);
+        const mes = `0${now.getMonth() + 1}`.slice(-2);
+        const hoy = `${now.getFullYear()}-${mes}-${dia}`;
+        $('#dtpFechaRegistro').val(hoy);
+    });
+    txtCodigoCliente.oninput = function () {
+        var idCliente = txtCodigoCliente.value;
+        $.ajax({
+            url: 'http://localhost:4000/combos/comboNombreC/' + idCliente,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                var select = document.getElementById("cboNombreCliente");
+                var length = select.options.length;
+                for (i = length - 1; i >= 0; i--) {
+                    select.options[i] = null;
+                }
+                let cliente = result;
+                for (let i = 0; i < cliente.length; i++) {
+                    let html = '<option value= >';
+                    html += cliente[i].NombreCompleto + '</option>';
+                    $('#cboNombreCliente').append(html);
+                }
+            },
+            error: function (result) {
+                swal({
+                    title: 'Error!',
+                    text: 'No se ha podido cargar las Categorias' + result,
+                    icon: 'error',
+                });
+            },
+        });
+    };
+
+</script>
+
+<script>
+
+    //https://editor.datatables.net/examples/inline-editing/simple para ver editar tabla ao vivo
+
+    function humanizeNumber(n) {
+        n = n.toString()
+        while (true) {
+            var n2 = n.replace(/(\d)(\d{3})($|,|\.)/g, '$1.$2$3')
+            if (n == n2) break
+            n = n2
+        }
+        return n
+    }
+    var idClienteUltimo = "";
+    var idProducto = "";
+    var idProd = "";
+    var legajo = "";
+
+
+
+    window.addEventListener("load", function (event) {
+
+
+
+
+
+        function validar() {
+
+            var nombreProd = $('#cboNombreProducto option:selected').text();
+            var cantidad = document.getElementById("txtCantidad").value;
+            var proveedor = $('#cboProveedor option:selected').text();
+            var precioUni = document.getElementById("txtPrecio").value;
+            var idProd = document.getElementById("cboNombreProducto").value;
+            var cliente = $('#cboNombreCliente option:selected').text();
+
+
+            const mensaje = [];
+            let pasa = true;
+
+            if (nombreProd === null || /^\s+$/.test(nombreProd)) {
+                mensaje.push('No hay producto a cargar');
+                swal({
+                    title: 'No se puede cargar un registro',
+                    text: `${mensaje}`,
+                    icon: 'warning',
+                });
+                return pasa;
+            }
+            if (cantidad === null || cantidad.length === 0 || /^\s+$/.test(cantidad)) {
+                mensaje.push('Cantidad');
+                pasa = false;
+            }
+
+            if (proveedor === null || proveedor.length === 0 || /^\s+$/.test(proveedor)) {
+                mensaje.push(' Nombre del Producto');
+                pasa = false;
+            }
+
+            if (
+                precioUni === null ||
+                precioUni.length === 0 ||
+                /^\s+$/.test(precioUni)
+            ) {
+                mensaje.push(' Precio unitario');
+                pasa = false;
+            }
+            if (idProd === null || idProd.length === 0 || /^\s+$/.test(idProd)) {
+                mensaje.push(' Nombre de Producto');
+                pasa = false;
+            }
+
+
+
+
+            if (pasa) {
+                swal('Datos correctos', 'Datos correctamente validados', 'success');
+            } else {
+                swal({
+                    title: 'Datos no ingresados',
+                    text: `${mensaje}`,
+                    icon: 'warning',
+                });
+            }
+            return pasa;
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $("#cboNombreProducto").select2({
+
+            minimumInputLength: 1,
+            minimumResultsForSearch: 20,
+            language: {
+
+                noResults: function () {
+
+                    return "No hay resultado";
+                },
+                searching: function () {
+
+                    return "Buscando..";
+                },
+                inputTooShort: function () {
+                    return 'Ingrese al menos 1 caracteres.';
+                }
+            },
+
+            ajax: {
+                url: 'http://localhost:4000/combos/capturaNombreProd',
+                dataType: 'json',
+                type: "POST",
+                data: function (term) {
+                    return {
+                        term: term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+
+                        results: $.map(data, function (item) {
+                            idProducto = item.codigo;
+                            return {
+                                text: item.nombre,
+                                id: item.codigo,
+
+                            }
+                        })
+                    };
+                }
+
+            }
+        });
+
+        $("#cboNombreCliente").select2({
+
+            minimumInputLength: 3,
+            minimumResultsForSearch: 20,
+            language: {
+
+                noResults: function () {
+
+                    return "No hay resultado";
+                },
+                searching: function () {
+
+                    return "Buscando..";
+                },
+                inputTooShort: function () {
+                    return 'Ingrese al menos 3 caracteres.';
+                }
+            },
+            ajax: {
+                url: 'http://localhost:4000/nota/captura',
+                dataType: 'json',
+                type: "POST",
+                data: function (term) {
+                    return {
+                        term: term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            idClienteUltimo = item.idCliente
+                            return {
+                                text: item.NombreCompleto,
+                                id: item.idCliente,
+
+                            }
+                        })
+                    };
+                }
+
+            }
+        });
+
+
+
+
+
+        //obtenemos el valor de los input
+
+        $('#btnCargar').click(function () {
+
+
+
+            validar();
+
+
+
+            if (validar()) {
+                var nombreProd = $('#cboNombreProducto option:selected').text();
+                var cantidad = document.getElementById("txtCantidad").value;
+                var proveedor = $('#cboProveedor option:selected').text();
+                var precioUni = document.getElementById("txtPrecio").value;
+                var idProd = document.getElementById("cboNombreProducto").value;
+
+                $('#btnCargarProd').css('display', 'block');
+
+
+
+
+
+                i = 1; //contador para asignar id al boton que borrara la fila
+
+                var fila = '<tr id="row' + i + '"><td hidden >' + idProd + '</td>+ <td style="text-align: center">' + nombreProd + '</td><td  style="text-align: center;" >' + cantidad + '</td><td style="text-align: center">' + proveedor + '</td><td id="sumar" style="text-align: center" class="sumar"  datoCantidad="' + cantidad + '" dato="' + precioUni + '">$' + humanizeNumber(precioUni) + '</td><td style="text-align: center"><button  type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">Quitar</button></td></tr>'; //esto seria lo que contendria la fila
+
+                i++;
+
+                $('#usuarios tr:first').after(fila);
+                $("#adicionados").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+                var nFilas = $("#usuarios tr").length;
+                $("#adicionados").append(nFilas - 1);
+                //le resto 1 para no contar la fila del header
+                document.getElementById("txtCantidad").value = "";
+                document.getElementById("txtPrecio").value = "";
+
+                var suma = 0;
+                $('tr').each(function () {
+                    $(this).find(".sumar").each(function () {
+                        suma += Number(($(this).attr("dato"))) * cantidad;
+                    });
+                });
+
+
+                document.getElementById("total").value = humanizeNumber(suma);
+
+            } else {
+
+                swal({
+                    title: 'Datos no ingresados',
+                    text: `${mensaje}`,
+                    icon: 'warning',
+                });
+
+
+
+
+            }
+
+        });
+
+
+
+
+        $(document).on('click', '.btn_remove', function () {
+
+
+
+
+            var button_id = $(this).attr("id");
+            //cuando da click obtenemos el id del boton
+            $('#row' + button_id + '').remove(); //borra la fila
+            //limpia el para que vuelva a contar las filas de la tabla
+
+
+            $("#adicionados").text("");
+            var nFilas = $("#usuarios tr").length;
+            $("#adicionados").append(nFilas - 1);
+
+            var suma = 0;
+
+            $('tr').each(function () {
+                $(this).find(".sumar").each(function () {
+
+
+                    suma += Number(($(this).attr("dato"))) * Number(($(this).attr("datoCantidad")));
+                });
+            });
+
+            document.getElementById("total").value = humanizeNumber(suma);
+
+        });
+
+
+
+    });
+
+
+    window.addEventListener("load", function (event) {
+
+
+
+
+
+        function validarCli() {
+
+
+
+
+
+
+
+
+            var cliente = $('#cboNombreCliente option:selected').text();
+            var idCliente = document.getElementById("cboNombreCliente").value;
+
+
+            const mensaje = [];
+            let pasa = true;
+
+
+            if (idCliente === null || idCliente.length === 0 || /^\s+$/.test(idCliente)) {
+                mensaje.push(' Debe Cargar el Nombre del');
+                pasa = false;
+            }
+
+
+
+            if (pasa) {
+                swal('Datos correctos', 'Datos correctamente validados', 'success');
+            } else {
+                swal({
+                    title: 'Datos no ingresados',
+                    text: `${mensaje}`,
+                    icon: 'warning',
+                });
+            }
+            return pasa;
+        };
+
+
+
+
+
+
+        var NotaPedido = {};
+        var cabeceraNota = {};
+        var Detalle = new Array();
+
+        $('#btnCargarProd').on('click', function () {
+            if (validarCli()) {
+                var idC = idClienteUltimo;
+                var legajo = document.getElementById("txtidVendedor").value;
+                var fecha = new Date($('#dtpFechaRegistro').val());
+                var vueltas = $("#usuarios tr").length;
+
+                var estado = 1;
+
+                var cabeceraNota = {
+                    idCliente: idC,
+                    legajo: legajo,
+                    Fecha: fecha,
+                    idEstado: estado,
+                    cantidadVueltas: vueltas
+                };
+
+
+
+                $('#usuarios  tr').each(function () {
+                    var idProd = $(this).find('td').eq(0).text();
+                    var nombreProd = $(this).find('td').eq(1).text();
+                    var cantidad = $(this).find('td').eq(2).text();
+                    var proveedor = $(this).find('td').eq(3).text();
+                    var precioUnitario = $(this).find('td').eq(4).text().replace("$", "").replace(",", "");
+
+
+                    var fila = {
+                        idProd,
+                        cantidad,
+                        precioUnitario,
+                    };
+                    Detalle.push(fila);
+                });
+
+
+                cabeceraNota.Detalle = Detalle;
+
+
+                NotaPedido.cabeceraNota = cabeceraNota;
+
+                var notaJson = JSON.stringify(NotaPedido);
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:4000/nota/registrar",
+                    dataType: 'json',
+
+                    data: NotaPedido,
+                    success: function () {
+                        window.location.href = 'http://localhost:4000/vistas/nota/listado';
+
+
+
+                    }
+                });
+
+
+            } else {
+
+
+                swal({
+                    title: 'Datos no ingresados , Verifique el nombre del cliente',
+                    text: `${mensaje}`,
+                    icon: 'warning',
+                });
+
+
+            }
+        });
+
+
+    });
+
+</script>

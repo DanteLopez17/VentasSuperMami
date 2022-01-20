@@ -1,0 +1,305 @@
+<div class="row">
+    <div class="col-1">
+        {{> barranavegacion}}
+    </div>
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="container p-4">
+            <form method='post' name='frmModificarPedido' class="form" action='/pedido/editar'>
+                <div hidden="true">
+                    <div class="col-md-2">
+                        <input class="form-control" type='text' id='txtCodigo' name='codigo' alt='Campo codigo' readonly
+                            value="{{Cabecera.NotaPedido}}" />
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='text' id='txtVendedor' name='Vendedor' alt='Campo Vendedor'
+                            placeholder="Vendedor" value="{{Cabecera.NotaPedido}}" />
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='text' id='txtidDetalle' name='Vendedor' alt='Campo Vendedor'
+                            placeholder="Vendedor" value="{{Cabecera.idDetalle}}" />
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='text' id='txtNombreCliente' name='nombreCliente'
+                            placeholder='Cliente' alt='Campo nombreCliente' value="{{Cabecera.Cliente}}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2">
+                        <!--Fecha-->
+                        <h4 for='dtpFecha'>Fecha pedido</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" type='date' id='dtpFechaAlta' name='FechaAlta'
+                            alt='Campo fecha de alta' readonly />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1>Detalle Pedido</h1>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <div class="container p-4">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <table id="pedidos" class="table table-striped table-bordered" style="width:100%">
+                                <thead class="thead-dark">
+                                    <tr></tr>
+                                </thead>
+                                <tbody id="prueba" style="text-align: center;"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+          <div class="col-1">
+             <input style="    background: darkslategrey;" type='button' id='volver' name='registrar'
+                                value="Volver" class="btn btn-success" />
+          </div>
+          <div class="col-7"></div>
+          <div class="col-4">
+            <div class="col-10"></div>
+            <div class="col-2">
+              <div class="text-end">
+            <a class="btn btn-sm btn-outline-danger border-0" href="/nota/generarPDF/{{Cabecera.NotaPedido}}">
+              DESCARGAR PDF
+            </a>
+            </div>
+            </div>
+          </div>
+        </div>
+                </div>
+            </div>
+        </div>       
+        <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="frmModal" method="post" action="/nota/modificarProductoDetalle">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="producto" name="lblprod">Producto</label>
+                                <input type="text" class="form-control" id="txtProducto" name="prod"
+                                    aria-describedby="emailHelp" placeholder="Producto" value="" readonly>
+                                <small id="emailHelp" class="form-text text-muted">El nombre del producto no se puede
+                                    modificar</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="marca" name="lblmarca">Marca</label>
+                                <input type="text" class="form-control" id="txtMarca" placeholder="Marca" name="marc"
+                                    value="" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidad" name="lblCant">Cantidad</label>
+                                <input type="text" class="form-control" id="txtCant" placeholder="Cantidad" name="cant"
+                                    value="">
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                            <input name="idNotaP" id="idNotaPedido" value="" hidden> </input>
+                            <input name="idDetaP" id="idDetalledePedido" value="" hidden> </input>
+
+                            <div class="container col-md-5">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">Volver</span>
+                                </button>
+                            </div>
+                            <div class="container col-md-5">
+                                <button id="btnConfirmar" type="submit" class="btn btn-success">Confirmar</button>
+                            </div>
+                        </div>
+                    </form>                 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .moneda {
+        text-align: right;
+    }
+</style>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/validacion-editar-pedido.js"></script>
+<script>
+    window.addEventListener("load", function (event) {
+
+
+        $('#volver').click(function () {
+
+
+            location.href = 'http://localhost:4000/vistas/nota/listado';
+        });
+
+
+        var idNota = $("#txtVendedor").val();
+        var idDetalle = $("#txtidDetalle").val();
+        var url = 'http://localhost:4000/nota/tablaDetalle/' + idNota;
+        var t = $('#pedidos').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            select: true,
+            "stateSave": true,
+            "deferLoading": 57,
+            "processing": true,
+            buttons: [{
+
+                name: 'excelBtn',
+                extend: 'excelHtml5',
+                text: '<button  class=" btn btn-success"><i class="fas fa-file-excel"></i></button>',
+                titleAttr: '',
+                filename: 'Listado',
+                autoFilter: true,
+                "messageTop": null,
+                "header": true,
+                "footer": false,
+                title: null,
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+                /* {
+                     extend: 'colvis', className: 'btn-warning',
+                     text: '<i class="btn btn-warning fas fa-file">Ocultar</i>',
+                 }*/
+            ],
+            "ajax": {
+                "url": url,
+                "dataSrc": "",
+            },
+            "rowCallback": function (row, data, index) {
+                if (data["Activo"] == "0") {
+                    $('td', row).css('background-color', 'Red');
+                }
+                else if (data["Activo"] == "1") {
+                }
+            },
+            "columns": [
+
+                { "data": "Nombre", title: "Nombre" },
+                { "data": "Marca", title: "Marca" },
+                { "data": "Medida", title: "Medida" },
+                { "data": "Descripcion", title: "Descripcion" },
+                { "data": "Cantidad", title: "Cantidad" },
+
+                {
+                    "data": 'PrecioUni',
+                    "title": "Precio Unitario",
+                    className: "moneda",
+                    render: $.fn.dataTable.render.number(',', '.', 2, '$')
+                }
+                ,
+                {
+                    "data": 'subTotal',
+                    "title": "Sub Total",
+                    className: "moneda",
+                    render: $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "data": null, title: "Editar",
+                    "render": function (data) {
+                        return ' <a id="btnEd"  value="' + data.idDetalle + '"  class="btn btn-warning" data-toggle="modal" data-target="#form" ><i class="far fa-edit"></i></a>'
+                    }
+                },
+                {
+                    "data": null, title: "Eliminar",
+                    "render": function (data) {
+                        return ' <a  href="#" id="btnEliminar" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a> <a </a>'
+                    }
+                }
+            ],
+            "columnDefs": [{
+                "targets": [7],
+
+                render(v) {
+                    return Number(v).toFixed(2)
+                }
+            }]
+
+        });
+        var idDeta = "";
+        $('#prueba').on('click', 'tr', function () {
+            idDeta = t.row(this).data().idDetalle;
+        });
+
+
+        $(document).on('click', '#btnEliminar', function () {
+            Swal.fire({
+                title: '¿Seguro que desea eliminar?',
+                text: "Este cambio no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'Detalle eliminado',
+                        'success'
+                    )
+                    location.href = "http://localhost:4000/nota/eliminar/" + idDetalle;
+                }
+            })
+        });
+
+        $(document).on("click", '#btnEd', function () {
+            $.ajax({
+                url: 'http://localhost:4000/nota/editarProductoDetalle/' + idDeta,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+
+                    document.getElementById("txtProducto").setAttribute('value', JSON.stringify(data.nombre));
+                    document.getElementById("txtMarca").setAttribute('value', JSON.stringify(data.marca));
+                    document.getElementById("txtCant").setAttribute('value', JSON.stringify(data.cantidad));
+                    document.getElementById("idNotaPedido").setAttribute('value', JSON.stringify(data.idNotaPedido));
+                    document.getElementById("idDetalledePedido").setAttribute('value', JSON.stringify(data.idDetalle));
+
+                    $("#txtProducto").val(data.nombre);
+                    $("#txtMarca").val(data.marca);
+                    $("#txtCant").val(data.cantidad);
+                    $("#idNotaPedido").val(data.idNotaPedido);
+                    $("#idDetalledePedido").val(data.idDetalle);
+                }
+            });
+
+        });
+    });
+    $("#btnConfirmar").on("click", function (e) {
+
+        let cantid = $("#txtCant").val();
+        if (cantid === null || cantid.length === 0 || cantid < 1) {
+            swal('La cantidad ingresada es incorrecta');
+            return false;
+            e.preventDefault();
+        }
+        else {
+            swal('Modificacion exitosa');
+        }
+    })
+    $("#btnVolverModal").on("click", function (e) {
+        //    $("#form").css({'display': 'none'});
+        //   $("#form").removeClass("show");
+
+
+    })
+
+</script>

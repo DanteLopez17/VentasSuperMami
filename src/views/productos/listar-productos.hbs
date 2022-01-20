@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-2">
+        {{> barranavegacion}}
+    </div>
+
+
+    <div class="col-10">
+        <style>
+            .center {
+                text-align: center;
+            }
+
+            .izquierda {
+                text-align: right;
+            }
+        </style>
+        {{#if usuario.esAdministrador}}
+        {{else}}
+        <style>
+            #idAdmin {
+                display: none;
+            }
+        </style>
+        {{/if}}
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-4 mx-auto">
+                    <h1>Listado Productos </h1>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container p-4">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <table id="usuarios" class="table" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th >Nombre</th>
+                                    <th>Stock </th>
+                                    <th>Precio Unitario</th>
+                                    <th>Proveedor</th>
+                                    <th>Descripcion</th>
+                                    <th hidden>Estado</th>
+                                    <th>Editar</th>
+                                     <th>Baja</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    window.addEventListener("load", function (event) {
+        var url = 'http://localhost:4000/producto/tabla';
+
+
+        var t = $('#usuarios').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            select: true,
+            "deferLoading": 57,
+            "processing": true,
+            "order": [[6, "desc"]],
+            buttons: [{
+
+                name: 'excelBtn',
+                extend: 'excelHtml5',
+                text: '<button  class=" btn btn-success"><i title="Exportar a Excel" class="fas fa-file-excel"></i></button>',
+                titleAttr: '',
+                filename: 'Listado Productos',
+                autoFilter: true,
+                "messageTop": null,
+                "header": true,
+                "footer": false,
+                title: null,
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+        /*    {
+                extend: 'colvis', className: 'btn btn-warning',
+                text: ' <i title="Ocultar Columnas" style="background: bottom;" class=" fas fa-file"></i>',
+
+
+            }*/
+
+            ],
+            "ajax": {
+                "url": url,
+                "dataSrc": "",
+            },
+            "rowCallback": function (row, data, index) {
+                if (data["activo"] == "6") {
+                    $('td', row).css('background-color', '#e36565');
+                }
+                else if (data["activo"] == "5") {
+
+                }
+            },
+            "columns": [
+
+                { "data": "nombre", className: "center", },
+                { "data": "stock", className: "center", },
+                {
+                    data: 'precioUnitario',
+                    title: "Precio Unitario",
+                    className: "izquierda",
+                    render: $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                { "data": "nombrePro", className: "center", },
+                { "data": "descripcion", className: "center", },
+             //   { "data": "estado", className: "center", },
+
+                {
+                    "data": null, title: "",
+                    "render": function (data) {
+                        return '  <a style= "text-align: center";  title="Editar" href="editar/' + data.codigo + '" class="btn btn-warning"><i class="far fa-edit"></i></a> '
+
+                    }
+
+                    /*
+
+element.style {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+                    */
+                },
+                {
+                    "data": null, title: "Editar",
+                    "render": function (data) {
+                        return ' <a  id="idAdmin" className="center" title="Inactivo" href="confirmar/' + data.codigo + '/6' + '" class="btn btn-danger center"><i class="fas fa-trash-alt"></i></a> '
+
+                    }
+                },
+
+            ],
+
+            /*
+<a id="idAdmin" title="Activo" href="confirmar/' + data.codigo + '/5' + '" class="btn btn-success"><i class="far fa-edit"></i></a> </a> <a  id="idAdmin" title="Inactivo" href="confirmar/' + data.codigo + '/6' + '" class="btn btn-danger"><i class="far fa-edit"></i></a>
+
+            */
+            "columnDefs": [{
+                "targets": [6],
+                render(v) {
+                    return Number(v).toFixed(2)
+                }
+            }]
+        });
+
+    });
+</script>

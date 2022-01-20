@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-1">
+    {{> barranavegacion}}
+  </div>
+  <div class="col-1"></div>
+  <div class="col-9">
+    <div class="container p-4">
+  <div><!--class='login-box' -->
+    <h1 class="animate__animated animate__backInDown">Registra nuevo producto</h1>
+    <form method='post' name='frmAltaUsuario' action='/producto/registrar' onsubmit="return validar()">
+      <h3 class="animate__animated animate__backInDown">Datos del producto</h3>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Nombre-->
+          <label for='txtNombre'>Nombre:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control" type='text' id='txtNombre' name='nombre' placeholder='Ingrese nombre'
+            alt='Campo nombre' />
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <!--Tipo documento y documento-->
+          <label for='cboProovedor'>Proveedor:</label>
+        </div>
+        <div class="col-md-2">
+          <select class="form-control" id='cboProveedor' name='idProveedor' alt='Seleccion el Proveedor'>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Nombre-->
+          <label for='txtStock'>Stock:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control" type='text' id='txtStock' name='stock' placeholder='' alt='Campo nombre' />
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <!--Nombre-->
+            <label for='txtMarca'>Marca:</label>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" type='text' id='txtMarca' name='marca' placeholder='Ingrese nombre'
+              alt='Campo nombre' />
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Documento-->
+          <label for='txtPrecio'>Precio Unitario:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control" type='number' id='txtPrecio' name='precioUnitario' placeholder='Precio'
+            alt='Campo Precio' />
+        </div>
+        <div class="col-md-2"></div>
+        <!--Direccion-->
+        <div class="col-md-2" hidden>
+          <!--Tipo documento y documento-->
+          <label for='cboMedida'>Medida:</label>
+        </div>
+        <div class="col-md-2" hidden>
+          <select class="form-control" id='cboMedida' name='medida' alt='Seleccion Medida'>
+            <option value="1">Miligramos</option>
+            <option value="2">Kilogramos</option>
+          </select>
+        </div>
+        <div class="row">
+          
+        </div>
+        <div class="col-md-1"></div>
+        <hr>
+        <div class="row">     
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <div class="form-group">
+            <label for="exampleFormControlTextarea1">Descripcion del Producto.</label>
+            <textarea class="form-control" id="textDescripcion" name="descripcion" rows="2"></textarea>
+          </div>
+          </div>
+          <div class="col-md-2"></div>
+        </div> 
+          <div class="row">
+          <div class="col-1">
+            <input style="    background: darkslategrey;" type='button' id='volver' name='registrar' class="btn btn-success" value="Volver"/>
+          </div>
+          <div class="col-7"></div>
+          <div class="col-4">
+            <div class="col-10"></div>
+            <div class="col-2">
+              <input type='submit' id='boton' name='registrar' class="btn btn-success"  onclick="validar()" />
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+  </div>
+  <div class="col-1"></div>
+</div>
+
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/validacion-producto.js">
+
+</script>
+<script>
+          $('#volver').click(function () {
+
+
+location.href = 'http://localhost:4000/vistas/cliente/listado';
+        });
+</script>

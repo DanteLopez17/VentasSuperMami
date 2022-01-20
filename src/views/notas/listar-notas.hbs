@@ -1,0 +1,260 @@
+<div class="row">
+    <div class="col-2">
+        {{> barranavegacion}}
+    </div>
+
+
+    <div class="col-10">
+
+        <style>
+            .center {
+
+                text-align: center;
+            }
+
+            .moneda {
+
+                text-align: right;
+            }
+        </style>
+
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-4 mx-auto">
+                    <h1>Listado Notas Pedido </h1>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <!--Fecha de nacimiento-->
+                    <label for='filtros'>
+                        <h3>Filtros</h3>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <!--Fecha de nacimiento-->
+                    <label for='dtpFechaNacimiento'>Fecha Desde:</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" type='date' id='fecha1' name='fechaDesde' value="2019-01-01"
+                        alt='Campo fecha de nacimiento' />
+                </div>
+
+                <div class="col-md-2"></div>
+                <div class="col-md-1">
+                    <!--Nombre-->
+                    <label for='txtTipo'>Estado :</label>
+                </div>
+                <div class="col-md-4">
+                    <select id="cboEstado" class="form-control">
+                        <option value="1"> Pendiente</option>
+                        <option value="2">Confimardo</option>
+                        <option value="3">Modificado</option>
+                        <option value="4">Cancelado</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <!--Fecha de nacimiento-->
+                    <label for='dtpFechaNacimiento'>Fecha Hasta:</label>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" type='date' id='fecha2' name='fechaDesde' value="2019-01-01"
+                        alt='Campo fecha de nacimiento' />
+                </div>
+
+                <div class="col-md-2"></div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <!--Fecha de nacimiento-->
+                </div>
+                <div class="col-md-2">
+                    <button id="btnCargar" class="btn btn-primary">Consultar tabla</button>
+                </div>
+
+                <div class="col-md-2"></div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="container p-4">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <table id="usuarios" class="table" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    window.addEventListener("load", function (event) {
+
+
+
+        const now = new Date();
+        const dia = `0${now.getDate()}`.slice(-2);
+        const mes = `0${now.getMonth() + 1}`.slice(-2);
+        const hoy = `${now.getFullYear()}-${mes}-${dia}`;
+
+        $('#fecha2').val(hoy);
+
+
+
+
+
+        $('#btnCargar').click(function () {
+            var estado = document.getElementById("cboEstado").value;
+
+            var fecha1 = window.document.getElementById("fecha1").value;
+            var fecha2 = window.document.getElementById("fecha2").value;
+
+
+            if ($.fn.DataTable.isDataTable('#usuarios')) {
+                $('#usuarios').DataTable().destroy();
+            }
+            $('#usuarios tbody').empty();
+            $('#usuarios thead').empty();
+            $('#usuarios tr').empty();
+            var url = 'http://localhost:4000/nota/tabla/' + fecha1 + '/' + fecha2 + '/' + estado;
+
+            var idEsta = 0;
+            var t = $('#usuarios').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+                },
+                dom: 'Bfrtip',
+                select: true,
+                "deferLoading": 57,
+                "processing": true,
+                "order": [[1, "desc"]],
+                buttons: [{
+
+                    name: 'excelBtn',
+                    extend: 'excelHtml5',
+                    text: '<button title="Exportar a Excel"  class=" btn btn-success"><i class="fas fa-file-excel"></i></button>',
+                    titleAttr: '',
+                    filename: 'Listado notas de Pedido',
+                    autoFilter: true,
+                    "messageTop": null,
+                    "header": true,
+                    "footer": false,
+                    title: null,
+                    exportOptions: {
+                        columns: ':visible',
+                        orthogonal: 'export'
+                    }
+                },
+
+                
+               /* {
+                    extend: 'colvis', className: 'btn-warning',
+                    text: ' <i style="background: bottom;" class=" fas fa-file" title="Ocultar Columnas"></i>',
+
+
+                }*/
+
+                ],
+                "ajax": {
+                    "url": url,
+                    "dataSrc": "",
+                }, "rowCallback": function (row, data, index) {
+                    if (data["EstadoNP"] == "3") {
+                    }
+                    else if (data["EstadoNP"] === "Confirmado") {
+                        $('td', row).css('background-color', 'darkseagreen');
+                        $('#botModificar', row).css('display', 'none');
+                         $('#btnConfirmar', row).css('display', 'none');
+                        $('#btnRechazar', row).css('display', 'none');
+
+
+                    }
+                    else if (data["EstadoNP"] === "Cancelado") {
+                        $('td', row).css('background-color', '#e36565');
+                        $('#botModificar', row).css('display', 'none');
+                        $('#btnConfirmar', row).css('display', 'none');
+                        $('#btnRechazar', row).css('display', 'none');
+
+                    }
+                },
+
+                "columns": [
+
+                    { "data": "NotaPedido", title: "Nota Nro", className: "center" },
+                    { "data": "EstadoNP", title: "Estado", className: "center" },
+                    { data: "Fecha", title: "Fecha", className: "center" },
+                    { "data": "Usuario", title: "Usuario", className: "center" },
+                    { "data": "Cliente", title: "Cliente", className: "center" },
+                    { "data": "direccionCliente", title: "Direccion", className: "center" },
+                    {
+                        data: 'subTotal',
+                        title: "Sub Total",
+                        className: "moneda",
+                        render: $.fn.dataTable.render.number(',', '.', 2, '$')
+                    },
+                    {
+                        "data": null, title: "Editar",
+                        "render": function (data) {
+                            return ' </a> <a id="botModificar" href="editar/' + data.NotaPedido + '" title="Editar" class="btn btn-warning"><i class="far fa-edit"></i></a>'
+
+                        }
+                    },
+                    {
+                        "data": null, title: "Confirmar",
+                        "render": function (data) {
+                            return ' </a> <a id="btnConfirmar" title="Confirmar" href="confirmar/' + data.NotaPedido + '/2' + '" class="btn btn-success"><i class="fas fa-check-circle"></i></a> '
+
+                        }
+                    },
+                    {
+                        "data": null, title: "Rechazar",
+                        "render": function (data) {
+                            return '<a id="btnRechazar"  title="Cancelar"href="confirmar/' + data.NotaPedido + '/4' + '" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>'
+
+                        }
+                    },
+
+
+                ],
+
+
+                "columnDefs": [{
+                    "targets": [9],
+                    render(v) {
+                        return Number(v).toFixed(2)
+                    },
+                    "targets": 5,
+                    "data": "direccionCliente",
+                    render: $.fn.dataTable.render.ellipsis(20)
+                }]
+            });
+
+            t.columns([1]).visible(false);
+
+        });
+
+
+    });
+</script>

@@ -1,0 +1,144 @@
+<div class="row">
+  <div class="col-1">
+    {{> barranavegacion}}
+  </div>
+  <div class="col-1"></div>
+  <div class="col-9">
+    <div class='container p-4'>
+        <!--class="login-box" -->
+        <h1>Modificar Cliente</h1>
+        <form name='frmModificarCliente' action='/cliente/editar' method='POST' onsubmit="return validar()">
+          <div class='row'>
+            <div class='col-md-2'>
+            </div>
+            <div hidden='true'>
+              <label for='txtCliente'>Cliente:</label>
+              <input type='text' id='txtIdCliente' name='cliente' value='{{Cliente.idCliente}}' />
+            </div>
+            <div hidden='true'>
+              <label for='txtCliente'>Cliente:</label>
+              <input type='text' id='txtIdCliente' name='activo' value='{{Cliente.estado}}' />
+            </div>
+            <div class='col-md-2'></div>
+            <div class='col-md-4'></div>
+            <div class='col-md-2' hidden>
+              <select id='cboEstado' class='form-control' readonly>
+                <option value='1'>{{Cliente.estado}}</option>
+              </select>
+            </div>
+          </div>
+          <hr />
+          <h3>Informacion personal</h3>
+          <div class='row'></div>
+          <!--Nombre-->
+          <div class='row'>
+            <div class='col-md-2'>
+              <label for='txtNombre'>Nombre:</label>
+            </div>
+            <div class='col-md-3'>
+              <input class='form-control' type='text' id='txtNombre' name='nombre' placeholder='Ingrese el nombre'
+                alt='Campo nombre' value='{{Cliente.nombre}}' />
+            </div>
+            <div class="col-md-1"></div>
+            <!--Apellido-->
+            <div class='col-md-2'>
+              <label for='txtApellido'>Apellido:</label>
+            </div>
+            <div class='col-md-3'>
+              <input class='form-control' type='text' id='txtApellido' name='apellido' placeholder='Ingrese el apellido'
+                alt='Campo apellido' value='{{Cliente.apellido}}' />
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <!--Fecha de nacimiento-->
+          <div class='row'>
+            <div class='col-md-2'>
+              <label for='dtpFechaNacimiento'>Fecha de nacimiento:</label>
+            </div>
+            <div class='col-md-3'>
+              <input class='form-control' type='date' id='dtpFechaNacimiento' name='FechaNacimiento'
+                alt='Campo fecha de nacimiento' value='{{Cliente.FechaNacimiento}}' />
+            </div>
+            <div class='col-md-1'></div>
+            <!--Direccion-->
+            <div class='col-md-2'>
+              <label for='txtDireccion'>Direccion:</label>
+            </div>
+            <div class='col-md-3'>
+              <input class='form-control' type='text' id='txtDireccion' name='direccion' alt='Campo direccion'
+                placeholder='Ingrese la direccion de residencia' value='{{Cliente.direccion}}' />
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <div class='row'>
+            <div class='col-md-2'>
+              <label for='txtLocalidad'>Localidad:</label>
+            </div>
+            <div class='col-md-3'>
+                <select class="dropdown-toggle dropdown-toggle-split form-control" id='cboLocalidad'
+                  name='idLocalidad' alt='Campo localidad'>
+                  <option value='{{Cliente.idLocalidad}}'>{{Cliente.localidad}}</option>
+                </select>
+            </div>
+          </div>
+          <hr />
+          
+          <div class='row'>
+             <h3>Contacto</h3>
+          </div>
+          <!--Telefono-->
+          <div class='row'>
+            <div class='col-md-2'>
+              <label for='txtTelefono'>Telefono:</label>
+            </div>
+            <div class='col-md-3'>
+              <input class='form-control' type='text' id='txtTelefono' name='telefono' alt='Campo telefono'
+                placeholder='Ingrese el telefono de contacto' value='{{Cliente.telefono}}' />
+            </div>
+            <div class="col-md-1"></div>
+            <!--Email-->
+            <div class='col-md-2'>
+              <label for='txtEmail'>Email:</label>
+            </div>
+            <div class='col-md-3'>
+              <input class='form-control' type='email' id='txtEmail' name='email' alt='Campo email'
+                placeholder='Ingrese el email de contacto' value='{{Cliente.email}}' />
+            </div>
+          </div>
+          
+          <div class='row'>
+            <div class="col-1">
+            <button class='btn btn-secondary' id='btnVolver'>Volver</button>
+            </div>
+            <div class="col-7"></div>
+            <div class="col-4">
+              <div class="col-10"></div>
+              <div class="col-2">
+                <input type='submit' id='boton' name='editar' class="btn btn-success" onclick="return validar()" />
+              </div>
+            </div>
+          </div>
+          <div class='col-md-4'>
+            <input hidden class='form-control' type='text' id='cboLocalidad' name='Idlocalidad' alt='Campo localidad'
+              placeholder='Ingrese la Localidad de residencia' value='{{Cliente.idLocalidad}}' />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-1"></div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src='/js/validacion-cliente.js'></script>
+<script>
+
+
+     $('#volver').click(function () {
+
+
+location.href = 'http://localhost:4000/vistas/cliente/listado';
+        });
+
+
+</script>

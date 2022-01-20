@@ -1,0 +1,41 @@
+<div>
+  <div class='login-box'>
+    <img src='/img/user2.png' alt='Logo Usuario' class='avatar' />
+    <h1>Inicio de Sesión</h1>
+    <form method='post' name='frmLogin' action='/login'>
+      <!--Legajo-->
+      <div>
+        <label for='txtLegajo'>Legajo:</label>
+        <input
+          type='text'
+          id='legajo'
+          name='legajo'
+          placeholder='Ingrese su legajo'
+          alt='Campo legajo'
+        />
+      </div>
+
+      <!--Password-->
+      <div>
+        <label for='txtPassword'>Contraseña:</label>
+        <input
+          type='password'
+          id='password'
+          name='password'
+          placeholder='Ingrese su contraseña'
+          alt='Campo contraseña'
+        />
+      </div>
+      <input type='submit' onclick='return validarLogin()' value='Iniciar sesion' />
+      {{#if messages.error}}
+        <p
+          style='    color: white;
+    font-size: 24px;
+    text-align: center;
+}'
+        >{{messages.error}}</p>
+      {{/if}}
+    </form>
+  </div>
+</div>
+<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>

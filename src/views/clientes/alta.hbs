@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-1">
+    {{> barranavegacion}}
+  </div>
+  <div class="col-1"></div>
+  <div class="col-9">
+    <div class="container p-4">
+    <div><!--class='login-box' -->
+    <h1 class="animate__animated animate__backInDown">Registra nuevo cliente</h1>
+    <form method='post' name='frmAltaCliente' action='/cliente/registrar' onsubmit=" return validar()">
+      <h3 class="animate__animated animate__backInDown">Datos personales</h3>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Nombre-->
+          <label for='txtNombre'>Nombre:</label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" type='text' id='txtNombre' name='nombre' placeholder='Ingrese nombre'
+            alt='Campo nombre' />
+        </div>
+        <div class="col-md-2">
+          <!--Apellido-->
+          <label for='txtApellido'>Apellido:</label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" type='text' id='txtApellido' name='apellido' placeholder='Ingrese apellido'
+            alt='Campo apellido' />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Direccion-->
+          <label for='txtDireccion'>Direccion:</label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" type='text' id='txtDireccion' name='direccion' alt='Campo direccion'
+            placeholder='Ingrese direccion' />
+        </div>
+        <div class="col-md-2">
+          <!--Localidad-->
+          <label for='cboLocalidad'>Localidad:</label>
+        </div>
+        <div class="col-md-2">
+          <select style="  text-align: left;" class="dropdown-toggle dropdown-toggle-split form-control" id='cboLocalidad'
+            name='idLocalidad' alt='Campo localidad'>
+          </select>
+        </div>
+      </div>
+      <hr>
+      <h3>Contacto</h3>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Telefono-->
+          <label for='txtTelefono'>Telefono:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control" type='text' id='txtTelefono' name='telefono' alt='Campo telefono'
+            placeholder='Ingrese telefono' />
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <!--Email-->
+          <label for='txtEmail'>Email:</label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" type='email' id='txtEmail' name='email' alt='Campo email'
+            placeholder='Ingrese email' />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Fecha de nacimiento-->
+          <label for='dtpFechaNacimiento'>Fecha de nacimiento:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control" type='date' id='dtpFechaNacimiento' name='FechaNacimiento'
+            alt='Campo fecha de nacimiento' />
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <!--Tipo documento y documento-->
+          <label for='cboTipoDocumento'>Tipo documento:</label>
+        </div>
+        <div class="col-md-2">
+          <select class="form-control" id='cboTipoDocumento' name='documento' alt='Seleccion tipo documento'>
+          </select>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <!--Documento-->
+          <label for='txtDocumento'>Documento:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control" type='number' id='txtDocumento' name='numDocumento' placeholder='N° de documento'
+            alt='Campo documento' />
+        </div>
+      </div>
+      <div class="row">
+          <div  class="col-1">
+           <input hidden style="    background: darkslategrey;" type='button' id='volver' name='registrar' class="btn btn-success" value="Volver"/>
+          </div>
+          <div class="col-7"></div>
+          <div class="col-4">
+            <div class="col-10"></div>
+            <div class="col-2">
+              <input type='submit' id='boton' name='registrar' class="btn btn-success" onsubmit="return validar()" onclick="validar()" return="validar()"/>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+<div class="col-1"></div>
+  </div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/validacion-cliente.js"></script>
+<script src="/js/combos.js"></script>
+<script>
+
+
+     $('#volver').click(function () {
+
+
+location.href = 'http://localhost:4000/vistas/cliente/listado';
+        });
+
+</script>

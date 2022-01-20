@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-1">
+    {{> barranavegacion}}
+  </div>
+  <div class="col-1"></div>
+  <div class="col-9">
+    <div class='container p-4'>
+      <!--class="login-box" -->
+      <h1 class="animate__animated animate__bounce">Modificar Producto</h1>
+      <form name='frmEditarProducto' action='/producto/editar' method='POST' onsubmit="return validar()">
+        <!--Rol-->
+        <div hidden class="col-md-4">
+          <input type='number' id='txtCodigo' name='activo' placeholder='Ingrese el codigo' alt='Campo nombre'
+            value='{{productos.activo}}'>
+        </div>
+        <div class='row'>
+          <div class='col-md-2'>
+          </div>
+          <div class='col-md-2'></div>
+          <div class='col-md-4'></div>
+          <div class='col-md-2' hidden>
+            <select id='cboEstado' class='form-control' onchange="estadoCliente()">
+              <option value='{{productos.activo}}' selected>{{productos.estado}}</option>
+            </select>
+          </div>
+          <div class='row'></div>
+          <div hidden='true'>
+            <div class="col-md-2">
+              <label for='txtCodigo'>Codigo:</label>
+            </div>
+            <div class="col-md-4">
+              <input type='number' id='txtCodigo' name='codigo' placeholder='Ingrese el codigo' alt='Campo nombre'
+                value='{{productos.codigo}}'>
+            </div>
+          </div>
+        </div>
+        <!--Marca-->
+        <div class='row'>
+          <div class='col-md-2 text-center'>
+            <label for='txtMarca'>Marca:</label>
+          </div>
+          <div class='col-md-3'>
+            <input class='form-control' type='text' id='txtMarca' name='marca' placeholder='Ingrese la marca'
+              alt='Campo marca' value='{{productos.marca}}' />
+          </div>
+          <div class='col-md-1'></div>
+          <!--Nombre-->
+          <div class='col-md-2 text-center'>
+            <label for='txtNombre'>Nombre:</label>
+          </div>
+          <div class='col-md-3'>
+            <input class='form-control' type='text' id='txtNombre' name='nombre' placeholder='Ingrese el nombre'
+              alt='Campo nombre' value='{{productos.nombre}}' />
+          </div>
+          <div class='col-md-1'></div>
+        </div>
+
+        <!--Stock-->
+        <div class='row'>
+          <div class='col-md-2 text-center'>
+            <label for='txtStock'>Stock:</label>
+          </div>
+          <div class='col-md-3'>
+            <input class='form-control' type='number' id='txtStock' name='stock' alt='Campo stock'
+              placeholder='Stock disponible' value='{{productos.stock}}' />
+          </div>
+          <div class='col-md-1'></div>
+          <!--Precio-->
+          <div class='col-md-2 text-center'>
+            <label for='txtPrecio'>Precio:</label>
+          </div>
+          <div class='col-md-3'>
+            <input class='form-control' type='number' id='txtPrecio' name='precio' alt='Campo precio'
+              placeholder='Precio unitario, usar punto decimal' value='{{productos.precioUnitario}}' />
+          </div>
+          <div class='col-md-1'></div>
+        </div>
+
+        <!--Medida-->
+        <div class='row'>
+          <!--Proveedor-->
+          <div class="col-md-2 text-center">
+            <label for='cboProveedor'>Proveedor:</label>
+          </div>
+          <div class="col-md-3">
+            <select class="form-control" id='cboProveedor' name='idProveedor' alt='Seleccion el Proveedor'>           
+            </select>
+          </div>
+          <div class='col-md-1'></div>
+          <div class='col-md-2 text-center'>
+            <label for='txtDescripcion'>Descripcion:</label>
+          </div>
+          <div class='col-md-3'>
+            <textarea class='form-control' id='txtDescripcion' name='descripcion' alt='Campo descripcion'
+              placeholder='Descripcion'>{{productos.descripcion}}</textarea>
+          </div>          
+          <div class='col-md-1'></div>
+        </div>
+        <!--Descripcion-->
+        <div hidden class='row'>
+          
+          <div  class='col-md-2 text-center'>
+            <label for='txtMedida'>Medida:</label>
+          </div>
+          <div class='col-md-3'>
+            <input class='form-control' type='text' id='txtMedida' name='medida' alt='Campo medida'
+              placeholder='Medida, ingresar que medida se usa' value='{{productos.medida}}' />
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-1">
+            <button class='btn btn-secondary' id='btnVolver'>Volver</button>
+          </div>
+          <div class="col-7"></div>
+          <div class="col-4">
+            <div class="col-10"></div>
+            <div class="col-2">
+              <input type="submit" name='editar' class='btn btn-success' id='boton' value="Actualizar" onsubmit="return validar()"
+                Actualizar />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-1"></div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/validacion-producto.js"></script>
+<script>
+
+            $('#volver').click(function () {
+
+
+location.href = 'http://localhost:4000/vistas/cliente/listado';
+        });
+  
+</script>
